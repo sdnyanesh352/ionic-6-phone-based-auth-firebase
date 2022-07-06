@@ -1,6 +1,7 @@
 import { AuthService } from './../../services/auth/auth.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-otp',
@@ -20,6 +21,7 @@ export class OtpComponent implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
+    private router: Router,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     private auth: AuthService
@@ -71,7 +73,9 @@ export class OtpComponent implements OnInit {
   async verifyOtp() {
     try {
       const response = await this.auth.verifyOtp(this.otp);
-      console.log(response);       
+      console.log(response); 
+      this.modalCtrl.dismiss();
+      this.router.navigate(['/home'])      
     } catch(e) {
       console.log(e);
     }
